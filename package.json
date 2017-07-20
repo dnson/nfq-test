@@ -35,14 +35,15 @@
     "clean:all": "npm run analyze:clean && npm run test:clean && npm run build:clean",
     "generate": "plop --plopfile internals/generators/index.js",
     "lint": "npm run lint:js",
-    "lint:eslint": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts",
+    "lint:eslint": "eslint --ignore-path .gitignore --ignore-path .eslintignore",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "lint-staged",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "format": "prettier-eslint \"app/**/*.js\" --write --no-semi"
   },
   "lint-staged": {
     "*.js": "lint:eslint"
@@ -85,14 +86,15 @@
     "extends": "airbnb",
     "env": {
       "browser": true,
-      "node": true,
       "jest": true,
       "es6": true
     },
     "plugins": [
       "redux-saga",
       "react",
-      "jsx-a11y"
+      "jsx-a11y",
+      "babel",
+      "import"
     ],
     "parserOptions": {
       "ecmaVersion": 6,
@@ -102,24 +104,14 @@
       }
     },
     "rules": {
-      "arrow-parens": [
-        "error",
-        "always"
-      ],
+      "react/prefer-stateless-function": "off",
       "arrow-body-style": [
         2,
         "as-needed"
       ],
-      "comma-dangle": [
-        2,
-        "always-multiline"
-      ],
-      "import/imports-first": 0,
       "import/newline-after-import": 0,
       "import/no-dynamic-require": 0,
       "import/no-extraneous-dependencies": 0,
-      "import/no-named-as-default": 0,
-      "import/no-unresolved": 2,
       "import/prefer-default-export": 0,
       "indent": [
         2,
@@ -135,14 +127,11 @@
       "jsx-a11y/mouse-events-have-key-events": 2,
       "jsx-a11y/role-has-required-aria-props": 2,
       "jsx-a11y/role-supports-aria-props": 2,
-      "max-len": 0,
       "newline-per-chained-call": 0,
       "no-confusing-arrow": 0,
-      "no-console": 1,
       "no-use-before-define": 0,
       "prefer-template": 2,
       "class-methods-use-this": 0,
-      "react/forbid-prop-types": 0,
       "react/jsx-first-prop-new-line": [
         2,
         "multiline"
@@ -150,11 +139,131 @@
       "react/jsx-filename-extension": 0,
       "react/jsx-no-target-blank": 0,
       "react/require-extension": 0,
-      "react/self-closing-comp": 0,
       "redux-saga/no-yield-in-race": 2,
       "redux-saga/yield-effects": 2,
       "require-yield": 0,
-      "import/no-webpack-loader-syntax": 0
+      "import/no-webpack-loader-syntax": 0,
+      "react/require-default-props": 0,
+      "semi": 0,
+      "quotes": [
+        2,
+        "single",
+        {
+          "avoidEscape": true,
+          "allowTemplateLiterals": true
+        }
+      ],
+      "space-before-function-paren": [
+        2,
+        {
+          "anonymous": "always",
+          "named": "never"
+        }
+      ],
+      "eqeqeq": 0,
+      "no-var": "error",
+      "no-console": "error",
+      "no-alert": "error",
+      "no-debugger": "error",
+      "no-useless-escape": "error",
+      "yoda": "error",
+      "arrow-parens": [
+        0,
+        "always"
+      ],
+      "arrow-spacing": 2,
+      "brace-style": [
+        2,
+        "stroustrup"
+      ],
+      "padded-blocks": 0,
+      "newline-after-var": 0,
+      "spaced-comment": 0,
+      "max-len": 0,
+      "array-bracket-spacing": [
+        2,
+        "never"
+      ],
+      "computed-property-spacing": [
+        2,
+        "never"
+      ],
+      "no-trailing-spaces": [
+        2,
+        {
+          "skipBlankLines": true
+        }
+      ],
+      "generator-star-spacing": 0,
+      "comma-dangle": 0,
+      "no-underscore-dangle": 0,
+      "import/no-unresolved": [
+        2,
+        {
+          "commonjs": true,
+          "amd": true
+        }
+      ],
+      "import/named": 0,
+      "import/namespace": 0,
+      "import/default": 0,
+      "import/export": 2,
+      "import/no-named-as-default": 0,
+      "import/no-commonjs": 0,
+      "import/no-amd": 2,
+      "import/imports-first": 2,
+      "import/no-duplicates": 2,
+      "no-unused-vars": [
+        2,
+        {
+          "argsIgnorePattern": "React"
+        }
+      ],
+      "jsx-quotes": [
+        2,
+        "prefer-single"
+      ],
+      "react/jsx-boolean-value": 2,
+      "react/jsx-no-undef": 2,
+      "react/jsx-sort-prop-types": 0,
+      "react/jsx-sort-props": 0,
+      "react/jsx-uses-react": 1,
+      "react/jsx-uses-vars": 1,
+      "react/jsx-curly-spacing": [
+        2,
+        "never"
+      ],
+      "react/jsx-indent-props": [
+        2,
+        2
+      ],
+      "react/jsx-max-props-per-line": [
+        2,
+        {
+          "maximum": 5
+        }
+      ],
+      "react/jsx-no-bind": 2,
+      "react/jsx-no-duplicate-props": 2,
+      "react/display-name": 0,
+      "react/no-did-update-set-state": 2,
+      "react/no-direct-mutation-state": 2,
+      "react/no-multi-comp": 2,
+      "react/no-unknown-property": 2,
+      "react/no-set-state": 0,
+      "react/prop-types": 2,
+      "react/react-in-jsx-scope": 2,
+      "react/self-closing-comp": 2,
+      "react/sort-comp": 2,
+      "react/forbid-prop-types": 0,
+      "babel/new-cap": 2,
+      "babel/object-curly-spacing": [
+        2,
+        "never"
+      ],
+      "object-curly-spacing": 0,
+      "object-shorthand": 2,
+      "no-await-in-loop": 1
     },
     "settings": {
       "import/resolver": {
@@ -210,7 +319,6 @@
   },
   "dependencies": {
     "antd": "^2.12.1",
-    "babel-plugin-import": "^1.2.1",
     "babel-polyfill": "6.20.0",
     "chalk": "1.1.3",
     "compression": "1.6.2",
@@ -246,9 +354,11 @@
     "babel-eslint": "7.1.1",
     "babel-loader": "6.2.10",
     "babel-plugin-dynamic-import-node": "1.0.0",
+    "babel-plugin-import": "^1.2.1",
     "babel-plugin-react-intl": "2.2.0",
     "babel-plugin-react-transform": "2.0.2",
     "babel-plugin-transform-es2015-modules-commonjs": "6.18.0",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-react-constant-elements": "6.9.1",
     "babel-plugin-transform-react-inline-elements": "6.8.0",
     "babel-plugin-transform-react-remove-prop-types": "0.2.11",
@@ -261,14 +371,17 @@
     "coveralls": "2.11.15",
     "css-loader": "0.26.1",
     "enzyme": "2.6.0",
-    "eslint": "3.11.1",
-    "eslint-config-airbnb": "13.0.0",
-    "eslint-config-airbnb-base": "10.0.1",
-    "eslint-import-resolver-webpack": "0.8.0",
+    "eslint": "3.13.1",
+    "eslint-config-airbnb": "14.0.0",
+    "eslint-config-airbnb-base": "11.0.1",
+    "eslint-import-resolver-webpack": "0.8.1",
+    "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-jsx-a11y": "2.2.3",
-    "eslint-plugin-react": "6.7.1",
-    "eslint-plugin-redux-saga": "0.1.5",
+    "eslint-plugin-jsx-a11y": "3.0.2",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "6.9.0",
+    "eslint-plugin-redux-saga": "0.3.0",
     "eventsource-polyfill": "0.9.6",
     "exports-loader": "0.6.3",
     "file-loader": "0.9.0",
@@ -277,13 +390,14 @@
     "image-webpack-loader": "2.0.0",
     "imports-loader": "0.6.5",
     "jest-cli": "18.0.0",
-    "lint-staged": "3.2.1",
+    "lint-staged": "^4.0.2",
     "ngrok": "2.2.4",
     "node-plop": "0.5.4",
     "null-loader": "0.1.1",
     "offline-plugin": "4.5.2",
     "plop": "1.7.3",
-    "pre-commit": "1.1.3",
+    "pre-commit": "^1.2.2",
+    "prettier-eslint-cli": "^4.1.1",
     "react-addons-test-utils": "15.4.1",
     "rimraf": "2.5.4",
     "shelljs": "0.7.5",
