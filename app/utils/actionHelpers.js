@@ -7,9 +7,9 @@ export const createRequestTypes = base =>
   [INITIATED, REQUEST, SUCCESS, FAILURE].reduce(
     (acc, type) => ({
       ...acc,
-      [type]: `${base}_${type}`
+      [type]: `${base}_${type}`,
     }),
-    {}
+    {},
   )
 
 export const createAction = (type, payload = {}) => ({type, ...payload})
@@ -20,5 +20,5 @@ export const createRequestActions = requestTypes => ({
   success: ({response, payload}) =>
     createAction(requestTypes.SUCCESS, {response, payload}),
   failure: ({error, payload}) =>
-    createAction(requestTypes.FAILURE, {error, payload})
+    createAction(requestTypes.FAILURE, {error, payload}),
 })

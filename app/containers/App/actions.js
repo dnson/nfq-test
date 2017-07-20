@@ -2,7 +2,7 @@ import {createAction} from 'utils/actionHelpers'
 import {
   SENDING_REQUEST_START,
   SENDING_REQUEST_END,
-  SHOW_NOTIFICATION
+  SHOW_NOTIFICATION,
 } from './constants'
 
 export const startPageTransition = () => createAction(SENDING_REQUEST_START)

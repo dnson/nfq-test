@@ -20,18 +20,18 @@ const makeSelectLocationState = () => {
 const makeSelectTransition = () =>
   createSelector(
     state => state.get('global'),
-    global => global.get('transition')
+    global => global.get('transition'),
   )
 
 const makeSelectTransitionProgress = () =>
   createSelector(makeSelectTransition(), transition =>
-    transition.get('progress')
+    transition.get('progress'),
   )
 
 const makeSelectNotification = () =>
   createSelector(
     state => state.get('global'),
-    global => global.get('notification').toJS()
+    global => global.get('notification').toJS(),
   )
 
 export {

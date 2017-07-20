@@ -9,7 +9,7 @@ import {fromJS} from 'immutable'
 import {
   SENDING_REQUEST_START,
   SENDING_REQUEST_END,
-  SHOW_NOTIFICATION
+  SHOW_NOTIFICATION,
 } from './constants'
 
 function transition(state = fromJS({}), action) {
@@ -17,12 +17,12 @@ function transition(state = fromJS({}), action) {
     case SENDING_REQUEST_START:
       return fromJS({
         progress: 0,
-        rand: Math.random()
+        rand: Math.random(),
       })
     case SENDING_REQUEST_END:
       return fromJS({
         progress: 100,
-        rand: Math.random()
+        rand: Math.random(),
       })
     default:
       return state
@@ -34,7 +34,7 @@ function notification(state = fromJS({}), action) {
     case SHOW_NOTIFICATION:
       return fromJS({
         ...action,
-        rand: Math.random()
+        rand: Math.random(),
       })
     default:
       return state

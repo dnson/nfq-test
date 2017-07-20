@@ -38,6 +38,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/address/:id',
+      name: 'addressDetail',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/AddressDetail/reducer'),
+          import('containers/AddressDetail/sagas'),
+          import('containers/AddressDetail'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('addressDetail', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

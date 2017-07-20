@@ -1,4 +1,3 @@
 import {createRequestTypes} from 'utils/actionHelpers'
 
-export const FETCH_ADDRESS = createRequestTypes('app/home/FETCH_ADDRESS');
-
+export const FETCH_ADDRESSES = createRequestTypes('app/home/FETCH_ADDRESSES')

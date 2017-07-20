@@ -3,12 +3,15 @@ import 'whatwg-fetch'
 const API_ROOT = 'https://nfqtest-b4532.firebaseio.com'
 
 export function request(endpoint, options) {
+  const {thirdParty, ...opts} = options
   const fullUrl =
-    endpoint.indexOf(API_ROOT) === -1 ? API_ROOT + endpoint : endpoint
+    endpoint.indexOf(API_ROOT) === -1 && !thirdParty
+      ? API_ROOT + endpoint
+      : endpoint
 
   return fetch(fullUrl, {
-    ...options,
-    mode: 'cors'
+    ...opts,
+    mode: 'cors',
   })
     .then(response => {
       const contentType = response.headers.get('content-type')
@@ -33,7 +36,7 @@ export function request(endpoint, options) {
     })
     .then(
       response => ({response}),
-      error => ({error: error || {message: 'Something bad happened'}})
+      error => ({error: error || {message: 'Something bad happened'}}),
     )
 }
 

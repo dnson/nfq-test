@@ -11,12 +11,12 @@ class SimpleListPresenter {
       return {
         id,
         key: id,
-        ...model
+        ...model,
       }
     })
     return {
       count: models.length,
-      data
+      data,
     }
   }
 }

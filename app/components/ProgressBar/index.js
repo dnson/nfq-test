@@ -10,7 +10,7 @@ function withProgressBar(WrappedComponent) {
       super(props)
       this.state = {
         progress: -1,
-        loadedRoutes: props.location && [props.location.pathname]
+        loadedRoutes: props.location && [props.location.pathname],
       }
       this.updateProgress = this.updateProgress.bind(this)
     }
@@ -41,7 +41,7 @@ function withProgressBar(WrappedComponent) {
       ) {
         this.updateProgress(100)
         this.setState({
-          loadedRoutes: loadedRoutes.concat([pathname])
+          loadedRoutes: loadedRoutes.concat([pathname]),
         })
       }
     }
@@ -70,12 +70,12 @@ function withProgressBar(WrappedComponent) {
 
   AppWithProgressBar.propTypes = {
     location: React.PropTypes.object,
-    router: React.PropTypes.object
+    router: React.PropTypes.object,
   }
   const mapStateToProps = createStructuredSelector(
     {
       //  progress: makeSelectTransitionProgress()
-    }
+    },
   )
 
   return connect(mapStateToProps)(AppWithProgressBar)

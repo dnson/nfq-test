@@ -1,34 +1,36 @@
 import {request} from 'utils/request'
 
-const createRequest = (config) =>
+const createRequest = config =>
   request(config.url, {
     method: config.method,
+    thirdParty: config.thirdParty,
     body: config.method === 'GET' ? undefined : JSON.stringify(config.payload),
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      ...config.headers
-    })
+    headers: new Headers({}),
   })
 
 export class Api {
-
   static post(config) {
     return createRequest({
       ...config,
-      method: 'POST'
+      method: 'POST',
     })
   }
   static get(config) {
     return createRequest({
       ...config,
-      method: 'GET'
+      method: 'GET',
     })
   }
   static put(config) {
     return createRequest({
       ...config,
-      method: 'PUT'
+      method: 'PUT',
+    })
+  }
+  static patch(config) {
+    return createRequest({
+      ...config,
+      method: 'PATCH',
     })
   }
 }
-

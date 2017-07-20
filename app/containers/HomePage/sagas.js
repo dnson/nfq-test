@@ -1,21 +1,23 @@
 import {takeLatest, fork, take, cancel} from 'redux-saga/effects'
 import sendRequest from 'utils/sendRequest'
 import {LOCATION_CHANGE} from 'react-router-redux'
-import {getAddress} from './api'
-import {FETCH_ADDRESS} from './constants'
-import {fetchAddressAction} from './actions'
-import addressesPresenter from './addressesPresenter'
-const sendRequestGetAddress = sendRequest.bind(null, fetchAddressAction, getAddress, addressesPresenter);
+import {fetchAddresses} from './api'
+import {FETCH_ADDRESSES} from './constants'
+import {fetchAddressesAction} from './actions'
+import present from './presenter'
+const sendRequestGetAddress = sendRequest.bind(
+  null,
+  fetchAddressesAction,
+  fetchAddresses,
+  present,
+)
 
 function* requestGetAddress() {
   yield fork(sendRequestGetAddress, null)
 }
 
 function* watchGetAddress() {
-  const watcher = yield takeLatest(
-    FETCH_ADDRESS.INITIATED,
-    requestGetAddress
-  )
+  const watcher = yield takeLatest(FETCH_ADDRESSES.INITIATED, requestGetAddress)
   yield take(LOCATION_CHANGE)
   yield cancel(watcher)
 }

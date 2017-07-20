@@ -13,34 +13,40 @@ import React, {PropTypes} from 'react'
 import {Table} from 'antd'
 import {connect} from 'react-redux'
 import {createStructuredSelector} from 'reselect'
-import {fetchAddressAction} from './actions';
+import {fetchAddressesAction} from './actions'
 import {makeSelectAddresses} from './selectors'
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name'
+    title: 'Street Name',
+    dataIndex: 'streetName',
+    key: 'streetName',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Ward',
+    dataIndex: 'ward',
+    key: 'ward',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'District',
+    dataIndex: 'district',
+    key: 'district',
   },
   {
-    title: 'Action',
-    key: 'action'
+    title: 'City',
+    dataIndex: 'city',
+    key: 'city',
+  },
+  {
+    title: 'Country',
+    dataIndex: 'country',
+    key: 'country',
   },
 ]
 
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
-    this.props.fetchAddress();
+    this.props.fetchAddress()
   }
   render() {
     return <Table columns={columns} dataSource={this.props.addresses.data} />
@@ -49,16 +55,15 @@ class HomePage extends React.PureComponent {
 
 HomePage.propTypes = {
   fetchAddress: PropTypes.func.isRequired,
-  addresses: PropTypes.object.isRequired
+  addresses: PropTypes.object.isRequired,
 }
-const mapStateToProps = createStructuredSelector(
-  {
-    addresses: makeSelectAddresses()
-  }
-)
+const mapStateToProps = createStructuredSelector({
+  addresses: makeSelectAddresses(),
+})
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAddress: (payload) => dispatch(fetchAddressAction.initiate({payload}))
+    fetchAddress: payload =>
+      dispatch(fetchAddressesAction.initiate({payload})),
   }
 }
 

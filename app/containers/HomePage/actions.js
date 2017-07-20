@@ -1,5 +1,4 @@
 import {createRequestActions} from 'utils/actionHelpers'
-import {FETCH_ADDRESS} from './constants'
+import {FETCH_ADDRESSES} from './constants'
 
-export const fetchAddressAction = createRequestActions(FETCH_ADDRESS)
-
+export const fetchAddressesAction = createRequestActions(FETCH_ADDRESSES)

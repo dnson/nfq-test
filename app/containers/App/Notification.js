@@ -5,10 +5,10 @@ const openNotification = ({message, description}) => {
   notification.open({
     message,
     style: {
-      top: 50
+      top: 50,
     },
     description,
-    icon: <Icon type='smile-circle' style={{color: '#108ee9'}} />
+    icon: <Icon type='smile-circle' style={{color: '#108ee9'}} />,
   })
 }
 

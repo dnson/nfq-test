@@ -1,14 +1,14 @@
 import React from 'react'
-import {Layout, Breadcrumb} from 'antd';
+import {Layout, Breadcrumb} from 'antd'
 import withProgressBar from 'components/ProgressBar'
 import NFQHeader from 'components/Header'
-const {Content} = Layout;
+const {Content} = Layout
 
-
-export class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class App extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
   }
 
   render() {
@@ -19,7 +19,10 @@ export class App extends React.PureComponent { // eslint-disable-line react/pref
           <Breadcrumb style={{margin: '12px 0'}}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
           </Breadcrumb>
-          <div style={{background: '#fff', padding: 24, minHeight: 280}} id='contents'>
+          <div
+            style={{background: '#fff', padding: 24, minHeight: 280}}
+            id='contents'
+          >
             {React.Children.toArray(this.props.children)}
           </div>
         </Content>
@@ -28,7 +31,7 @@ export class App extends React.PureComponent { // eslint-disable-line react/pref
   }
 }
 App.propTypes = {
-  children: React.PropTypes.node
+  children: React.PropTypes.node,
 }
 
 export default withProgressBar(App)
