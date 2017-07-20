@@ -9,9 +9,12 @@
  * the linting exception.
  */
 
-import React from 'react'
+import React, {PropTypes} from 'react'
 import {Table} from 'antd'
-
+import {connect} from 'react-redux'
+import {createStructuredSelector} from 'reselect'
+import {fetchAddressAction} from './actions';
+import {makeSelectAddresses} from './selectors'
 const columns = [
   {
     title: 'Name',
@@ -34,29 +37,29 @@ const columns = [
   },
 ]
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-]
-export default class HomePage extends React.PureComponent {
+class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
+  componentWillMount() {
+    this.props.fetchAddress();
+  }
   render() {
-    return <Table columns={columns} dataSource={data} />
+    return <Table columns={columns} dataSource={this.props.addresses.data} />
   }
 }
+
+HomePage.propTypes = {
+  fetchAddress: PropTypes.func.isRequired,
+  addresses: PropTypes.object.isRequired
+}
+const mapStateToProps = createStructuredSelector(
+  {
+    addresses: makeSelectAddresses()
+  }
+)
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchAddress: (payload) => dispatch(fetchAddressAction.initiate({payload}))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
