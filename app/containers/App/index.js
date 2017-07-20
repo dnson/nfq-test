@@ -1,30 +1,34 @@
-/**
- *
- * App.react.js
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
- *
- * NOTE: while this component should technically be a stateless functional
- * component (SFC), hot reloading does not currently support SFCs. If hot
- * reloading is not a necessity for you then you can refactor it and remove
- * the linting exception.
- */
-
 import React from 'react'
+import {Layout, Breadcrumb} from 'antd';
+import withProgressBar from 'components/ProgressBar'
+import NFQHeader from 'components/Header'
+const {Content} = Layout;
 
-export default class App extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
+
+export class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
-    children: React.PropTypes.node,
+    children: React.PropTypes.node
   }
 
   render() {
     return (
-      <div>
-        {React.Children.toArray(this.props.children)}
-      </div>
+      <Layout className='layout' style={{height: '100%'}}>
+        <NFQHeader />
+        <Content style={{padding: '0 50px'}}>
+          <Breadcrumb style={{margin: '12px 0'}}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+          </Breadcrumb>
+          <div style={{background: '#fff', padding: 24, minHeight: 280}} id='contents'>
+            {React.Children.toArray(this.props.children)}
+          </div>
+        </Content>
+      </Layout>
     )
   }
 }
+App.propTypes = {
+  children: React.PropTypes.node
+}
+
+export default withProgressBar(App)

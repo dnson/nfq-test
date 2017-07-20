@@ -10,3 +10,9 @@
  */
 
 export const DEFAULT_LOCALE = 'en'
+
+export const SENDING_REQUEST_START = 'app/App/SENDING_REQUEST_START'
+export const SENDING_REQUEST_END = 'app/App/SENDING_REQUEST_END'
+
+export const SHOW_NOTIFICATION = 'app/App/SHOW_NOTIFICATION'
+export const CLOSE_NOTIFICATION = 'app/App/CLOSE_NOTIFICATION'
