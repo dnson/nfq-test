@@ -6,3 +6,9 @@ export const fetchAddresses = config =>
     ...config,
     url: `${urlGetAddress}`,
   })
+
+export const updateAddresses = config =>
+  Api.patch({
+    ...config,
+    url: `${urlGetAddress}`,
+  })

@@ -1,6 +1,6 @@
 import {fromJS} from 'immutable'
 import {combineReducers} from 'redux-immutable'
-import {FETCH_ADDRESSES} from './constants'
+import {FETCH_ADDRESSES, UPDATE_ADDRESSES} from './constants'
 
 const initialState = fromJS({})
 
@@ -12,6 +12,10 @@ function addresses(state = initialState, action) {
       })
     case FETCH_ADDRESSES.FAILURE:
       return fromJS({})
+    case UPDATE_ADDRESSES.SUCCESS:
+      return fromJS({
+        ...action.response,
+      })
     default:
       return state
   }

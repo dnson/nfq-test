@@ -1,3 +1,6 @@
+import isObject from 'lodash/isObject'
+import pickBy from 'lodash/pickBy'
+
 class SimpleListPresenter {
   constructor(models, eachPresenter) {
     this.models = models
@@ -6,8 +9,9 @@ class SimpleListPresenter {
 
   present() {
     const {models, Presenter} = this
-    const data = Object.keys(models).map(id => {
-      const model = new Presenter(models[id]).present()
+    let data = pickBy(models, isObject)
+    data = Object.keys(data).map(id => {
+      const model = new Presenter(data[id]).present()
       return {
         id,
         key: id,
@@ -17,6 +21,7 @@ class SimpleListPresenter {
     return {
       count: models.length,
       data,
+      origin: models
     }
   }
 }

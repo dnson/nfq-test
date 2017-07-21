@@ -27,6 +27,14 @@ export class Api {
       method: 'PUT',
     })
   }
+
+  static delete(config) {
+    return createRequest({
+      ...config,
+      method: 'DELETE',
+    })
+  }
+
   static patch(config) {
     return createRequest({
       ...config,

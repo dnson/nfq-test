@@ -16,7 +16,9 @@ import {createStructuredSelector} from 'reselect'
 import styled from 'styled-components'
 import {push} from 'react-router-redux'
 import {CSVLink} from 'components/ReactCSV'
-import {fetchAddressesAction} from './actions'
+import remove from 'lodash/remove'
+import indexOf from 'lodash/indexOf'
+import {fetchAddressesAction, updateAddressesAction} from './actions'
 import {makeSelectAddresses} from './selectors'
 
 const columns = [
@@ -78,6 +80,20 @@ class HomePage extends React.PureComponent {
     this.props.redirect(url)
   }
 
+  _onDeleteclick = () => {
+    const addresses = {
+      ...this.props.addresses
+    }
+    const {selectedRowKeys} = this.state
+    remove(addresses.data, (address) =>
+      indexOf(selectedRowKeys, address.id) != -1
+    )
+    selectedRowKeys.forEach((key) => {
+      addresses.origin[key] = null
+    })
+    this.props.updateAddresses(addresses.origin)
+  }
+
   render() {
     const rowSelection = {
       onChange: selectedRowKeys => {
@@ -115,6 +131,7 @@ class HomePage extends React.PureComponent {
             </Button>
             <Button
               className='add-more'
+              onClick={this._onDeleteclick}
               disabled={selectedRowKeys.length === 0}
             >
               Delete
@@ -135,6 +152,7 @@ HomePage.propTypes = {
   fetchAddress: PropTypes.func.isRequired,
   redirect: PropTypes.func.isRequired,
   addresses: PropTypes.object.isRequired,
+  updateAddresses: PropTypes.func.isRequired,
 }
 const mapStateToProps = createStructuredSelector({
   addresses: makeSelectAddresses(),
@@ -142,6 +160,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     redirect: url => dispatch(push(url)),
+    updateAddresses: payload => dispatch(updateAddressesAction.initiate({payload})),
     fetchAddress: payload =>
       dispatch(fetchAddressesAction.initiate({payload})),
   }
