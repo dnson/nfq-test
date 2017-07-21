@@ -1,5 +1,10 @@
 import {createRequestActions, createAction} from 'utils/actionHelpers'
-import {FETCH_ADDRESS, UPDATE_ADDRESS, FILL_IN_ADDRESS_BY_GM, GET_GEOCODE} from './constants'
+import {
+  FETCH_ADDRESS,
+  UPDATE_ADDRESS,
+  FILL_IN_ADDRESS_BY_GM,
+  GET_GEOCODE,
+} from './constants'
 
 export const fetchAddressAction = createRequestActions(FETCH_ADDRESS)
 

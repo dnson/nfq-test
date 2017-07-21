@@ -1,8 +1,6 @@
 import {Form, Button, Switch, Row} from 'antd'
 import {connect} from 'react-redux'
 import React, {PropTypes} from 'react'
-import {createStructuredSelector} from 'reselect'
-import makeSelectAddressDetail from './selectors'
 import {updateAddressAction} from './actions'
 import NormalForm from './NormalForm'
 import Map from './GoogleMapForm'
@@ -23,8 +21,9 @@ class AddressDetailForm extends React.PureComponent {
   static propTypes = {
     updateAddress: PropTypes.func.isRequired,
     form: PropTypes.object.isRequired,
-    address: PropTypes.object.isRequired,
-    id: PropTypes.string.isRequired,
+    address: PropTypes.object,
+    geoCode: PropTypes.object,
+    id: PropTypes.string,
   }
 
   _onSubmit = e => {
@@ -41,7 +40,7 @@ class AddressDetailForm extends React.PureComponent {
     })
   }
   render() {
-    const {form, address} = this.props
+    const {form, address, geoCode} = this.props
     return (
       <Form onSubmit={this._onSubmit}>
         <Row gutter={16}>
@@ -52,7 +51,8 @@ class AddressDetailForm extends React.PureComponent {
           </FormItem>
         </Row>
         <Row gutter={16}>
-          {form.getFieldValue('switch') === true && <Map {...address} />}
+          {form.getFieldValue('switch') === true &&
+            <Map geoCode={geoCode} {...address} />}
         </Row>
         <Row gutter={16}>
           <NormalForm
@@ -72,15 +72,11 @@ class AddressDetailForm extends React.PureComponent {
 }
 
 const WrappedAddressDetailForm = Form.create()(AddressDetailForm)
-const mapStateToProps = createStructuredSelector({
-  address: makeSelectAddressDetail(),
-})
+
 function mapDispatchToProps(dispatch) {
   return {
     updateAddress: payload =>
       dispatch(updateAddressAction.initiate({payload})),
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(
-  WrappedAddressDetailForm,
-)
+export default connect(null, mapDispatchToProps)(WrappedAddressDetailForm)

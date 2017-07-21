@@ -4,21 +4,23 @@
  *
  */
 
-import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
-import Helmet from 'react-helmet';
+import React, {PropTypes} from 'react'
+import {connect} from 'react-redux'
+import Helmet from 'react-helmet'
 import {createStructuredSelector} from 'reselect'
 import styled from 'styled-components'
+import makeSelectAddressDetail, {makeSelectGeoCode} from './selectors'
 import {fetchAddressAction} from './actions'
 import AddressDetailForm from './AddressDetailForm'
 const FormWrapper = styled.div`
   .gmnoprint {
-    display: none
+    display: none;
   }
 `
-export class AddressDetail extends React.PureComponent {// eslint-disable-line react/prefer-stateless-function
+export class AddressDetail extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
-    this.props.fetchAddress({id: this.props.params.id});
+    this.props.fetchAddress({id: this.props.params.id})
   }
   render() {
     return (
@@ -30,25 +32,33 @@ export class AddressDetail extends React.PureComponent {// eslint-disable-line r
           ]}
         />
         <FormWrapper>
-          <AddressDetailForm id={this.props.params.id} />
+          <AddressDetailForm
+            address={this.props.address}
+            id={this.props.params.id}
+            geoCode={this.props.geoCode}
+          />
         </FormWrapper>
       </div>
-    );
+    )
   }
 }
 
 AddressDetail.propTypes = {
   fetchAddress: PropTypes.func.isRequired,
-  params: PropTypes.object.isRequired
-};
+  params: PropTypes.object.isRequired,
+  address: PropTypes.object.isRequired,
+  geoCode: PropTypes.object.isRequired,
+}
 
 const mapStateToProps = createStructuredSelector({
-});
+  address: makeSelectAddressDetail(),
+  geoCode: makeSelectGeoCode(),
+})
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAddress: (payload) => dispatch(fetchAddressAction.initiate({payload}))
-  };
+    fetchAddress: payload => dispatch(fetchAddressAction.initiate({payload})),
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddressDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(AddressDetail)

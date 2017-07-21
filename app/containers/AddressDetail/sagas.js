@@ -48,7 +48,7 @@ function* watchFetchAddress() {
   yield cancel(watcher)
 }
 
-function* watchUpdateAddress() {
+export function* watchUpdateAddress() {
   const watcher = yield takeLatest(
     UPDATE_ADDRESS.INITIATED,
     requestUpdateAddress,

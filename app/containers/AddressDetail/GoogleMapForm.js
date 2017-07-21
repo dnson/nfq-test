@@ -1,11 +1,9 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {createStructuredSelector} from 'reselect'
 import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
 import withScriptjs from 'react-google-maps/lib/async/withScriptjs'
 import SearchBox from 'react-google-maps/lib/places/SearchBox'
 import {fillInAddressByGMAction, getGeoCodeAction} from './actions'
-import {makeSelectGeoCode} from './selectors'
 
 const INPUT_STYLE = {
   boxSizing: `border-box`,
@@ -38,12 +36,12 @@ const Map = withScriptjs(
         bounds={props.bounds}
         controlPosition={global.google.maps.ControlPosition.TOP_LEFT}
         onPlacesChanged={props.onPlacesChanged}
-        inputPlaceholder='Customized your placeholder'
+        inputPlaceholder='Search a location...'
         inputStyle={INPUT_STYLE}
         inputProps={props.inputProps}
       />
-      {props.markers.map((marker, idx) =>
-        <Marker position={marker.position} key={idx} /> // eslint-disable-line
+      {props.markers.map(
+        (marker, idx) => <Marker position={marker.position} key={idx} />, // eslint-disable-line
       )}
     </GoogleMap>,
   ),
@@ -58,6 +56,13 @@ class MapWithSearchBox extends React.Component {
     district: PropTypes.string,
     city: PropTypes.string,
     country: PropTypes.string,
+  }
+  static defaultProps = {
+    streetName: '',
+    ward: '',
+    district: '',
+    city: '',
+    country: '',
   }
   state = {
     bounds: null,
@@ -154,8 +159,12 @@ class MapWithSearchBox extends React.Component {
   }
 
   render() {
-    const fullAddress = `${this.props.streetName}, ${this.props.ward}, ${this
-      .props.district}, ${this.props.city}, ${this.props.country}`
+    const {streetName, ward, district, city, country} = this.props
+    let fullAddress = ''
+    if (streetName || ward || district || city || country) {
+      fullAddress = `${this.props.streetName}, ${this.props.ward}, ${this.props
+        .district}, ${this.props.city}, ${this.props.country}`
+    }
 
     return (
       <Map
@@ -175,9 +184,7 @@ class MapWithSearchBox extends React.Component {
     )
   }
 }
-const mapStateToProps = createStructuredSelector({
-  geoCode: makeSelectGeoCode(),
-})
+
 function mapDispatchToProps(dispatch) {
   return {
     fillInAddressByGM: payload =>
@@ -186,4 +193,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapWithSearchBox)
+export default connect(null, mapDispatchToProps)(MapWithSearchBox)

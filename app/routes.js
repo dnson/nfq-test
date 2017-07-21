@@ -38,13 +38,33 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
-      path: '/address/:id',
+      path: '/addresses/:id/edit',
       name: 'addressDetail',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/AddressDetail/reducer'),
           import('containers/AddressDetail/sagas'),
           import('containers/AddressDetail'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('addressDetail', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/addresses/new',
+      name: 'addAddress',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/AddressDetail/reducer'),
+          import('containers/AddAddress/sagas'),
+          import('containers/AddAddress'),
         ]);
 
         const renderRoute = loadModule(cb);
