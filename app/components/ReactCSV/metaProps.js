@@ -1,0 +1,17 @@
+import React from 'react'
+import {string, array, oneOfType} from 'prop-types'
+
+export const propTypes = {
+  data: oneOfType([string, array]).isRequired,
+  headers: array,
+  target: string,
+  separator: string,
+  filename: string,
+}
+
+export const defaultProps = {
+  separator: ',',
+  filename: 'generatedBy_react-csv.csv',
+}
+
+export const PropsNotForwarded = [`data`, `headers`]

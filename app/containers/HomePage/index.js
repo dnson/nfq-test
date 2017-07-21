@@ -15,6 +15,7 @@ import {connect} from 'react-redux'
 import {createStructuredSelector} from 'reselect'
 import styled from 'styled-components'
 import {push} from 'react-router-redux'
+import {CSVLink} from 'components/ReactCSV'
 import {fetchAddressesAction} from './actions'
 import {makeSelectAddresses} from './selectors'
 
@@ -85,6 +86,7 @@ class HomePage extends React.PureComponent {
         })
       },
     }
+    const {selectedRowKeys} = this.state
     return (
       <Wrapper>
         <Row gutter={16}>
@@ -94,20 +96,29 @@ class HomePage extends React.PureComponent {
         </Row>
         <Row gutter={16}>
           <ButtonGroupWrapper xs={24} md={24}>
-            <Button onClick={this._onAddclick} className='add-more'>
-              Export to CSV
+            <Button className='add-more'>
+              <CSVLink data={this.props.addresses.data || []}>
+                Export to CSV
+              </CSVLink>
             </Button>
             <Button onClick={this._onAddclick} className='add-more'>
               Add
             </Button>
             <Button
               onClick={this._onEditclick}
-              disabled={this.state.selectedRowKeys.length > 1}
+              disabled={
+                selectedRowKeys.length === 0 || selectedRowKeys.length > 1
+              }
               className='add-more'
             >
               Edit
             </Button>
-            <Button className='add-more'>Delete</Button>
+            <Button
+              className='add-more'
+              disabled={selectedRowKeys.length === 0}
+            >
+              Delete
+            </Button>
           </ButtonGroupWrapper>
         </Row>
         <Table
