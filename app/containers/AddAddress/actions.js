@@ -1,13 +1,3 @@
-/*
- *
- * AddAddress actions
- *
- */
-
-import {DEFAULT_ACTION} from './constants'
-
-export function defaultAction() {
-  return {
-    type: DEFAULT_ACTION,
-  }
-}
+import {createAction} from 'utils/actionHelpers'
+import {PAGE_ADD_LOADED} from './constants'
+export const pageAddLoadedAction = () => createAction(PAGE_ADD_LOADED)

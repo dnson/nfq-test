@@ -9,7 +9,7 @@ const INPUT_STYLE = {
   boxSizing: `border-box`,
   MozBoxSizing: `border-box`,
   border: `1px solid transparent`,
-  width: `440px`,
+  width: `350px`,
   height: `32px`,
   marginTop: `27px`,
   padding: `0 12px`,
@@ -21,7 +21,7 @@ const INPUT_STYLE = {
   backgroundColor: `white`,
 }
 
-const mapStyle = {width: 500, height: 300, paddingLeft: 50, paddingBottom: 15}
+const mapStyle = {width: '84%', height: 300, paddingLeft: 50, paddingBottom: 15}
 
 const Map = withScriptjs(
   withGoogleMap(props =>

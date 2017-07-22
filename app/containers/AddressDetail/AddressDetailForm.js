@@ -1,6 +1,7 @@
-import {Form, Button, Switch, Row} from 'antd'
+import {Form, Button, Switch, Row, Col} from 'antd'
 import {connect} from 'react-redux'
 import React, {PropTypes} from 'react'
+import {Link} from 'react-router'
 import {updateAddressAction} from './actions'
 import NormalForm from './NormalForm'
 import Map from './GoogleMapForm'
@@ -51,8 +52,10 @@ class AddressDetailForm extends React.PureComponent {
           </FormItem>
         </Row>
         <Row gutter={16}>
-          {form.getFieldValue('switch') === true &&
-            <Map geoCode={geoCode} {...address} />}
+          <Col xs={24} md={12}>
+            {form.getFieldValue('switch') === true &&
+              <Map geoCode={geoCode} {...address} />}
+          </Col>
         </Row>
         <Row gutter={16}>
           <NormalForm
@@ -61,8 +64,12 @@ class AddressDetailForm extends React.PureComponent {
             formItemLayout={formItemLayout}
           />
         </Row>
+  
         <FormItem wrapperCol={{span: 12, offset: 6}}>
-          <Button type='primary' htmlType='submit'>
+          <Button>
+            <Link to='/'>Back</Link>
+          </Button>
+          <Button type='primary' htmlType='submit' style={{marginLeft: 8}} >
             Submit
           </Button>
         </FormItem>

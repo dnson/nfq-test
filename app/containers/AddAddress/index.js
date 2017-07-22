@@ -11,6 +11,8 @@ import {createStructuredSelector} from 'reselect'
 import styled from 'styled-components'
 import AddressDetailForm from 'containers/AddressDetail/AddressDetailForm'
 import makeSelectAddressDetail from 'containers/AddressDetail/selectors'
+import {pageAddLoadedAction} from './actions'
+
 const FormWrapper = styled.div`
   .gmnoprint {
     display: none;
@@ -18,6 +20,9 @@ const FormWrapper = styled.div`
 `
 export class AddAddress extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
+  componentWillMount() {
+    this.props.pageAddLoaded()
+  }
   render() {
     return (
       <div>
@@ -35,6 +40,7 @@ export class AddAddress extends React.PureComponent {
 
 AddAddress.propTypes = {
   address: PropTypes.object,
+  pageAddLoaded: PropTypes.func
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -43,7 +49,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    pageAddLoaded: () => dispatch(pageAddLoadedAction())
   }
 }
 
