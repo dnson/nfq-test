@@ -24,6 +24,12 @@ module.exports = (options) => ({
           }],
         ],
       },
+    },
+    {
+      test: /\.(js|jsx)$/, // Transform all .js files required somewhere with Babel
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      query: options.babelQuery,
     }, {
       // Do not transform vendor's CSS with CSS-modules
       // The point is that they remain in global scope.
@@ -82,6 +88,7 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
+    new webpack.IgnorePlugin(/\.\/locale$/),
   ]),
   resolve: {
     modules: ['app', 'node_modules'],
